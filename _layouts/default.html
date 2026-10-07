@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- assign page_title = page.title | default: site.title -%}
+  {%- assign page_desc = page.description | default: site.description -%}
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_desc }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_desc }}">
+  {%- if page.image %}
+  <meta property="og:image" content="{% if page.image contains '://' %}{{ page.image }}{% else %}{{ page.image | absolute_url }}{% endif %}">
+  <meta name="twitter:card" content="summary_large_image">
+  {%- endif %}
+  {%- if page.favicon %}
+  <link rel="icon" href="{% include url.html path=page.favicon %}">
+  {%- endif %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/vendor/bulma.min.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/page.css' | relative_url }}">
+</head>
+<body>
+
+<!-- Hero: title, one-line summary, authors, buttons, then logos as the affiliation row -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+      <h1 class="title is-1 publication-title">{{ page_title }}</h1>
+
+      {%- if page.tldr %}
+      <p class="tldr">{{ page.tldr | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+      {%- endif %}
+
+      {%- if page.authors %}
+      <p class="publication-authors">
+        {%- for author in page.authors %}
+        <span class="author-block">
+          {%- if author.url %}<a href="{{ author.url }}">{{ author.name }}</a>{% else %}{{ author.name }}{% endif %}
+          {%- if author.affiliation %}<sup>{{ author.affiliation }}</sup>{% endif %}{% unless forloop.last %},{% endunless %}
+        </span>
+        {%- endfor %}
+      </p>
+      {%- endif %}
+
+      {%- if page.affiliations %}
+      <p class="publication-affiliations">
+        {%- for affiliation in page.affiliations %}
+        <span class="author-block">{{ affiliation }}</span>
+        {%- endfor %}
+      </p>
+      {%- endif %}
+
+      {%- if page.links %}
+      <div class="publication-links">
+        {%- for link in page.links %}
+        <span class="link-block">
+          <a href="{{ link.url }}" class="button is-dark is-rounded">
+            {%- if link.icon == "github" %}
+            <span class="icon">
+              <svg class="button-icon" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            </span>
+            {%- endif %}
+            <span>{{ link.name }}</span>
+          </a>
+        </span>
+        {%- endfor %}
+      </div>
+      {%- endif %}
+
+      {%- if page.logos %}
+      <div class="team-logos">
+        {%- for logo in page.logos %}
+        <a href="{{ logo.url }}"><img src="{% include url.html path=logo.src %}" alt="{{ logo.name }}" style="height: {{ logo.height | default: 32 }}px"></a>
+        {%- endfor %}
+      </div>
+      {%- endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Video rows from the front matter -->
+{%- for row in page.video_rows %}
+{% include video-row.html row=row %}
+{%- endfor %}
+
+<!-- Markdown body: every "## Heading" starts its own section -->
+{%- assign sections = content | split: '<h2' %}
+{%- for part in sections %}
+  {%- assign trimmed = part | strip %}
+  {%- if trimmed == "" %}{% continue %}{% endif %}
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content">
+      {% unless forloop.first %}<h2{% endunless %}{{ part }}
+    </div>
+  </div>
+</section>
+{%- endfor %}
+
+<footer class="footer">
+  <div class="container is-max-desktop has-text-centered">
+    {{ page.footer | markdownify }}
+    <p>
+      Page built with <a href="https://github.com/erelbng/project-page-template">project-page-template</a>,
+      adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>
+      (<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>).
+    </p>
+  </div>
+</footer>
+
+<dialog class="video-dialog" aria-label="Video">
+  <div class="dialog-heading">
+    <button class="dialog-close" type="button" aria-label="Close video">&times;</button>
+  </div>
+  <video controls playsinline preload="none"></video>
+</dialog>
+
+<script src="{{ '/assets/js/page.js' | relative_url }}"></script>
+</body>
+</html>

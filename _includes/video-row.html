@@ -1,0 +1,40 @@
+{%- assign row = include.row -%}
+{%- comment -%} up to three videos sit side by side; more than three become a scrolling carousel {%- endcomment -%}
+{%- if row.videos.size > 3 %}{% assign carousel = true %}{% else %}{% assign carousel = false %}{% endif -%}
+<section class="section video-section">
+  <div class="container is-max-desktop">
+    {%- if row.title %}
+    <h2 class="row-title">{{ row.title }}</h2>
+    {%- endif %}
+    {%- if row.caption %}
+    <p class="row-subcaption">{{ row.caption }}</p>
+    {%- endif %}
+    <div class="video-row {% if carousel %}is-carousel{% else %}is-grid{% endif %}" role="region" aria-label="{{ row.title | default: 'Videos' }}">
+      <div class="video-track">
+        {%- for video in row.videos %}
+        <figure class="video-card">
+          <button class="video-open" type="button" data-src="{% include url.html path=video.src %}" data-title="{{ video.title }}" aria-label="Play {{ video.title | default: 'video' }}">
+            <video muted loop playsinline preload="metadata"{% if video.poster %} poster="{% include url.html path=video.poster %}"{% endif %} tabindex="-1" aria-hidden="true">
+              <source src="{% include url.html path=video.src %}" type="video/mp4">
+            </video>
+          </button>
+          {%- if video.title or video.caption %}
+          <figcaption>
+            {%- if video.title %}<span class="video-title">{{ video.title }}</span>{% endif %}
+            {%- if video.caption %}<span class="video-caption">{{ video.caption }}</span>{% endif %}
+          </figcaption>
+          {%- endif %}
+        </figure>
+        {%- endfor %}
+      </div>
+      {%- if carousel %}
+      <button class="video-arrow previous" type="button" aria-label="Previous videos">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="video-arrow next" type="button" aria-label="Next videos">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      {%- endif %}
+    </div>
+  </div>
+</section>

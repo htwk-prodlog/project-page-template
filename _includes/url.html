@@ -1,0 +1,5 @@
+{%- comment -%}
+  Outputs a usable URL: absolute URLs (https://...) as they are, local paths with the site's baseurl.
+  Usage: {% include url.html path=video.src %}
+{%- endcomment -%}
+{%- if include.path contains '://' -%}{{ include.path }}{%- else -%}{{ include.path | relative_url }}{%- endif -%}

@@ -1,0 +1,9 @@
+# Settings for this repository's own demo page (index.md).
+# Projects that use the template set their own title and description in docs/_config.yml.
+title: project-page-template
+description: A Jekyll theme for project pages with videos, in the style of academic project pages.
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
