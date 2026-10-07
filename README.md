@@ -1,14 +1,13 @@
 # project-page-template
 
-A Jekyll theme for project pages with videos, in the style of academic project pages such as
-[Nerfies](https://nerfies.github.io/) and [booster_mjlab](https://intelligentroboticslab.github.io/booster_mjlab/).
+A Jekyll theme for project pages with videos, in the style of academic project pages.
 You write Markdown and list your videos in the front matter. GitHub Pages builds the page; there is no HTML to edit.
 
 - Centered hero with title, one-line summary, authors, buttons and an optional row of logos
 - Video rows: up to three videos side by side, more than three as a carousel; click a video to open a full-size player
 - Markdown sections with centered titles, syntax-highlighted code blocks with copy buttons, and tables
 
-Demo: <https://erelbng.github.io/project-page-template/>
+Demo: <https://htwk-prodlog.github.io/project-page-template/>
 
 ## Use it in a project
 
@@ -16,7 +15,7 @@ Demo: <https://erelbng.github.io/project-page-template/>
 
    `docs/_config.yml`:
    ```yaml
-   remote_theme: erelbng/project-page-template
+   remote_theme: htwk-prodlog/project-page-template
    plugins:
      - jekyll-remote-theme
    title: my-project

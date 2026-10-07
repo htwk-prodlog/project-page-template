@@ -11,7 +11,7 @@ authors:
     url: https://github.com/erelbng
 links:
   - name: GitHub
-    url: https://github.com/erelbng/project-page-template
+    url: https://github.com/htwk-prodlog/project-page-template
     icon: github
   - name: Example page
     url: https://erelbng.github.io/mujoco-examples/
@@ -53,7 +53,7 @@ video_rows:
         poster: https://erelbng.github.io/mujoco-examples/assets/tb4_sim_poster.jpg
 
 footer: >-
-  This is the demo page of [project-page-template](https://github.com/erelbng/project-page-template).
+  This is the demo page of [project-page-template](https://github.com/htwk-prodlog/project-page-template).
 ---
 
 ## Text sections
