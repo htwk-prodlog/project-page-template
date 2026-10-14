@@ -1,0 +1,31 @@
+{%- assign row = include.row -%}
+{%- if row.comparisons.size > 0 %}
+<section class="section comparison-section">
+  <div class="container is-max-desktop">
+    {%- if row.title %}<h2 class="row-title">{{ row.title | escape }}</h2>{% endif %}
+    {%- if row.caption %}<p class="row-subcaption">{{ row.caption | escape }}</p>{% endif %}
+    <div class="image-grid" style="--image-columns: {{ row.comparisons.size | at_most: 3 }}">
+      {%- for comparison in row.comparisons %}
+      {%- assign before_label = comparison.before.label | default: 'Before' -%}
+      {%- assign after_label = comparison.after.label | default: 'After' %}
+      <figure class="image-card">
+        <div class="image-comparison">
+          <img src="{% include url.html path=comparison.before.src %}" alt="{{ comparison.before.alt | default: before_label | escape }}" loading="lazy" decoding="async">
+          <img class="comparison-after" src="{% include url.html path=comparison.after.src %}" alt="{{ comparison.after.alt | default: after_label | escape }}" loading="lazy" decoding="async">
+          <span class="comparison-label before" aria-hidden="true">{{ before_label | escape }}</span>
+          <span class="comparison-label after" aria-hidden="true">{{ after_label | escape }}</span>
+          <span class="comparison-divider" aria-hidden="true"><span>↔</span></span>
+          <input class="comparison-slider" type="range" min="0" max="100" value="50" disabled aria-label="{{ comparison.title | default: 'Image comparison' | escape }}: {{ before_label | escape }} / {{ after_label | escape }}" data-before="{{ before_label | escape }}" data-after="{{ after_label | escape }}">
+        </div>
+        {%- if comparison.title or comparison.caption %}
+        <figcaption>
+          {%- if comparison.title %}<span class="image-title">{{ comparison.title | escape }}</span>{% endif %}
+          {%- if comparison.caption %}<span class="image-caption">{{ comparison.caption | escape }}</span>{% endif %}
+        </figcaption>
+        {%- endif %}
+      </figure>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}

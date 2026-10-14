@@ -1,4 +1,4 @@
-// project-page-template: video rows, full-size player and copy buttons on code blocks.
+// project-page-template: video rows, image comparisons, full-size player and code copying.
 (function () {
   var dialog = document.querySelector('.video-dialog');
   var player = dialog.querySelector('video');
@@ -98,6 +98,20 @@
     track.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     update();
+  });
+
+  // ---------- before/after images: native range inputs handle mouse, touch and keyboard ----------
+
+  document.querySelectorAll('.comparison-slider').forEach(function (slider) {
+    function updateComparison() {
+      var position = Number(slider.value);
+      slider.parentElement.style.setProperty('--comparison-position', position + '%');
+      slider.setAttribute('aria-valuetext', position + '% ' + slider.dataset.before + ', ' +
+        (100 - position) + '% ' + slider.dataset.after);
+    }
+    slider.disabled = false;
+    slider.addEventListener('input', updateComparison);
+    updateComparison();
   });
 
   // ---------- copy buttons on code blocks (not on plain-text blocks such as diagrams) ----------

@@ -2,3 +2,7 @@ _site/
 .jekyll-cache/
 .sass-cache/
 Gemfile.lock
+
+# Local demo page and its images: kept for previewing the theme, not shipped to projects
+/index.md
+/assets/images/

@@ -1,0 +1,29 @@
+{%- assign row = include.row -%}
+{%- if row.images.size > 0 %}
+<section class="section image-section">
+  <div class="container is-max-desktop">
+    {%- if row.title %}<h2 class="row-title">{{ row.title | escape }}</h2>{% endif %}
+    {%- if row.caption %}<p class="row-subcaption">{{ row.caption | escape }}</p>{% endif %}
+    <div class="image-grid" style="--image-columns: {{ row.images.size | at_most: 3 }}">
+      {%- for image in row.images %}
+      <figure class="image-card">
+        <img src="{% include url.html path=image.src %}" alt="{{ image.alt | default: image.title | default: '' | escape }}" loading="lazy" decoding="async">
+        {%- if image.title or image.caption %}
+        <figcaption>
+          {%- if image.title %}<span class="image-title">{{ image.title | escape }}</span>{% endif %}
+          {%- if image.caption %}<span class="image-caption">{{ image.caption | escape }}</span>{% endif %}
+        </figcaption>
+        {%- endif %}
+      </figure>
+      {%- endfor %}
+    </div>
+    {%- if row.legend.size > 0 %}
+    <ul class="image-legend" aria-label="Image legend">
+      {%- for item in row.legend %}
+      <li><span class="legend-swatch" style="background-color: {{ item.color | escape }}" aria-hidden="true"></span>{{ item.label | escape }}</li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+  </div>
+</section>
+{%- endif %}
